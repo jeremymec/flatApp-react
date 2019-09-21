@@ -12,6 +12,7 @@ import {
     Label,
     Title,
 } from 'native-base';
+import firebase from "../utils/firebase";
 
 
 export class LoginPage extends Component {
@@ -19,8 +20,12 @@ export class LoginPage extends Component {
     state = { email: '', password: '', errorMessage: null };
 
     handleLogin = () => {
-        // TODO: Firebase stuff...
-        console.log('handleLogin')
+        firebase
+            .auth()
+            .signInWithEmailAndPassword(this.state.email, this.state.password).then(
+            () => this.props.navigator.navigate('Home')
+                .catch(error => this.setState({errorMessage: error.message}))
+        );
     };
 
     render() {
