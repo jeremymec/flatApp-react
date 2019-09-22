@@ -21,14 +21,10 @@ export class LoginPage extends Component {
     state = { email: '', password: '', errorMessage: null };
 
     handleLogin = () => {
-        let formdata = new FormData();
-        formdata.append("uid", "17264871264");
-        formdata.append("name", this.state.email);
-
         firebase
             .auth()
             .signInWithEmailAndPassword(this.state.email, this.state.password).then(
-            () => restService.createUser(formdata))
+            )
                 .catch(error => this.setState({errorMessage: error.message})
         );
     };

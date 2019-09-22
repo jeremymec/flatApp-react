@@ -13,6 +13,7 @@ import {
     Title,
 } from 'native-base';
 import Constants from "expo-constants/src/Constants";
+import restService from "../services/rest";
 
 export class RegisterPage extends Component {
 
@@ -23,7 +24,13 @@ export class RegisterPage extends Component {
             .auth()
             .createUserWithEmailAndPassword(this.state.email,
                 this.state.password)
-            .then(() => this.props.navigation.navigate('Home'))
+            .then((result) => {
+                let formData = new FormData();
+                formData.append("uid", result.user.uid);
+                formData.append("name", this.state.email);
+                restService.createUser(formData);
+                this.props.navigator.navigate('Home');
+            })
             .catch(error => this.setState({errorMessage: error.message}))
     };
 
