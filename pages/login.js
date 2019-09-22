@@ -13,6 +13,7 @@ import {
     Title,
 } from 'native-base';
 import firebase from "../utils/firebase";
+import restService, {User} from "../services/rest";
 
 
 export class LoginPage extends Component {
@@ -20,11 +21,15 @@ export class LoginPage extends Component {
     state = { email: '', password: '', errorMessage: null };
 
     handleLogin = () => {
+        let formdata = new FormData();
+        formdata.append("uid", "17264871264");
+        formdata.append("name", this.state.email);
+
         firebase
             .auth()
             .signInWithEmailAndPassword(this.state.email, this.state.password).then(
-            () => this.props.navigator.navigate('Home')
-                .catch(error => this.setState({errorMessage: error.message}))
+            () => restService.createUser(formdata))
+                .catch(error => this.setState({errorMessage: error.message})
         );
     };
 
@@ -36,6 +41,10 @@ export class LoginPage extends Component {
                         <Title>Login</Title>
                     </Body>
                 </Header>
+                {this.state.errorMessage &&
+                <Text style={{ color: 'red' }}>
+                    {this.state.errorMessage}
+                </Text>}
                 <Form>
                     <FormItem floatingLabel>
                         <Label>Email</Label>
