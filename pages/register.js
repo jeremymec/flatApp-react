@@ -26,7 +26,7 @@ export class RegisterPage extends Component {
                 this.state.password)
             .then((result) => {
                 let formData = new FormData();
-                formData.append("uid", result.user.uid);
+                formData.append("flat", result.user.uid);
                 formData.append("name", this.state.email);
                 restService.createUser(formData);
                 this.props.navigator.navigate('Home');
