@@ -15,7 +15,7 @@ class restService {
 
     async leaveUsersFlat(userId: string) {
         let formData = new FormData();
-        formData.append("flat", "nil");
+        formData.append("flat_id", "nil");
         return await fetch(this.baseUrl + '/users/' + userId, {
             method: 'PATCH',
             credentials: 'include',

@@ -7,7 +7,7 @@ import rest from "../services/rest";
 
 export class HomePage extends Component {
 
-    state = {flatName: ''};
+    state = {flatName: null};
 
     handleLogout = () => {
         firebase.auth().signOut().then(r => console.log("Signed Out"));
@@ -20,7 +20,11 @@ export class HomePage extends Component {
     getFlatData = () => {
         let userUid = firebase.auth().currentUser.uid;
         let response = rest.getUsersFlat(userUid);
-        response.then((responseJson ) => this.setState({flatName: responseJson.name}));
+        response.then((responseJson ) => {
+            if (responseJson != null) {
+                this.setState({flatName: responseJson.name})
+            }
+        });
     };
 
     componentDidMount() {
@@ -39,12 +43,24 @@ export class HomePage extends Component {
                     <Row size={30}>
 
                     </Row>
-                    <Row size={10}>
-                        <Text style={styles.flatPreText}>You are currently a member of</Text>
-                    </Row>
-                    <Row size={20}>
-                        <Text style={styles.flatText}>{this.state.flatName}</Text>
-                    </Row>
+                    {this.state.flatName &&
+                        <View>
+                        <Row size={10}>
+                            <Text style={styles.flatPreText}>You are currently a member of</Text>
+                        </Row>
+                        <Row size={20}>
+                            <Text style={styles.flatText}>{this.state.flatName}</Text>
+                        </Row>
+                        </View>}
+                    {!this.state.flatName &&
+                    <View>
+                        <Row size={10}>
+                            <Text style={styles.flatPreText}>You are not currently in a flat.</Text>
+                        </Row>
+                        <Row size={20}>
+                            <Button primary><Text>Join Flat</Text></Button>
+                        </Row>
+                    </View>}
                     <Row size={50}>
                         <Button primary
                                 onPress={this.handleLeave}
