@@ -24,8 +24,22 @@ class restService {
     }
 
     async getUsersFlat(userId: string) {
-        return await fetch(this.baseUrl + '/users/' + userId + '/flats')
-            .then((response) => response.json());
+        return await fetch(this.baseUrl + '/users/' + userId + '/flats');
+    }
+
+    async getFlatByInviteCode(inviteCode: string) {
+        return await fetch(this.baseUrl + '/flats/' + inviteCode);
+    }
+
+    async joinFlatById(flatId: number, userId: string) {
+        let formData = new FormData();
+        formData.append("flat_id", flatId);
+        return await fetch(this.baseUrl + '/users/' + userId,
+            {
+                method: 'PATCH',
+                credentials: 'include',
+                body: formData
+            })
     }
 
 }

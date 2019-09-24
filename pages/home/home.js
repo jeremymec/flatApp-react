@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import {StyleSheet, View} from "react-native";
-import {Container, Content, H1, Button, Text, Header, Body, Title} from 'native-base';
+import {Container, Content, H1, Button, Text, Header, Body, Title, Left, Icon, Right} from 'native-base';
 import {Grid, Row, Col} from 'react-native-easy-grid'
-import firebase from "../utils/firebase";
-import rest from "../services/rest";
+import firebase from "../../utils/firebase";
+import rest from "../../services/rest";
 
 export class HomePage extends Component {
 
@@ -14,20 +14,27 @@ export class HomePage extends Component {
     };
 
     handleLeave = () => {
-        rest.leaveUsersFlat(firebase.auth().currentUser.uid).then((response) => console.log("Done"))
+        rest.leaveUsersFlat(firebase.auth().currentUser.uid).then((response) => this.setState({flatName: null}))
+    };
+
+    handleJoin = () => {
+        this.props.navigation.navigate('Join');
     };
 
     getFlatData = () => {
         let userUid = firebase.auth().currentUser.uid;
-        let response = rest.getUsersFlat(userUid);
-        response.then((responseJson ) => {
-            if (responseJson != null) {
-                this.setState({flatName: responseJson.name})
-            }
+        let getRequest = rest.getUsersFlat(userUid);
+        getRequest.then((response ) => {
+            response.json().then((responseJson => {
+                if (responseJson != null) {
+                    this.setState({flatName: responseJson.name})
+                }
+            }));
         });
     };
 
     componentDidMount() {
+        console.log("Mount Called");
         this.getFlatData();
     }
 
@@ -35,9 +42,17 @@ export class HomePage extends Component {
         return (
             <Container>
                 <Header>
+                    <Left>
+                        <Button
+                            transparent
+                            onPress={() => this.props.navigation.navigate("DrawerOpen")}>
+                            <Icon name="menu" />
+                        </Button>
+                    </Left>
                     <Body>
                         <Title>Flat Home</Title>
                     </Body>
+                    <Right />
                 </Header>
                 <Grid style={{alignItems: 'center'}}>
                     <Row size={30}>
@@ -51,6 +66,11 @@ export class HomePage extends Component {
                         <Row size={20}>
                             <Text style={styles.flatText}>{this.state.flatName}</Text>
                         </Row>
+                        <Row size={50}>
+                            <Button primary
+                                    onPress={this.handleLeave}
+                            ><Text> Leave Flat </Text></Button>
+                        </Row>
                         </View>}
                     {!this.state.flatName &&
                     <View>
@@ -58,20 +78,14 @@ export class HomePage extends Component {
                             <Text style={styles.flatPreText}>You are not currently in a flat.</Text>
                         </Row>
                         <Row size={20}>
-                            <Button primary><Text>Join Flat</Text></Button>
+                            <Button primary onPress={this.handleJoin}><Text>Join Flat</Text></Button>
                         </Row>
                     </View>}
-                    <Row size={50}>
-                        <Button primary
-                                onPress={this.handleLeave}
-                        ><Text> Leave Flat </Text></Button>
-                    </Row>
                 </Grid>
             </Container>
         )
     }
 }
-
 
 const styles = StyleSheet.create({
     flatText: {

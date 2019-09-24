@@ -13,7 +13,6 @@ import {
     Title,
 } from 'native-base';
 import firebase from "../utils/firebase";
-import restService, {User} from "../services/rest";
 
 
 export class LoginPage extends Component {
