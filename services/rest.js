@@ -1,5 +1,6 @@
 import firebase from "../utils/firebase";
 import {resume} from "expo/build/AR";
+import {TodoItem} from "../pages/todo";
 
 class restService {
 
@@ -39,6 +40,24 @@ class restService {
                 method: 'PATCH',
                 credentials: 'include',
                 body: formData
+            })
+    }
+
+    async getTodosByUserId(userId: string) {
+        return await fetch(this.baseUrl + '/users/' + userId + '/flats/todos/todo_items')
+    }
+
+    async removeTodoItem(userId: string, todoItemId: number) {
+        return await fetch(this.baseUrl + '/users/' + userId + '/flats/todos/todo_items/' + todoItemId, {
+            method: 'DELETE',
+        })
+    }
+
+    async createTodoItem(userId: string, item: TodoItem) {
+        return await fetch(this.baseUrl + '/users/' + userId + '/flats/todos/todo_items',
+            {
+                method: 'POST',
+                body: item
             })
     }
 

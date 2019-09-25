@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import {StyleSheet, View} from "react-native";
 import {Container, Content, H1, Button, Text, Header, Body, Title, Left, Icon, Right} from 'native-base';
 import {Grid, Row, Col} from 'react-native-easy-grid'
-import firebase from "../../utils/firebase";
-import rest from "../../services/rest";
+import firebase from "../utils/firebase";
+import rest from "../services/rest";
 
 export class HomePage extends Component {
 
@@ -19,6 +19,10 @@ export class HomePage extends Component {
 
     handleJoin = () => {
         this.props.navigation.navigate('Join');
+    };
+
+    handleTodo = () => {
+        this.props.navigation.navigate('Todo');
     };
 
     getFlatData = () => {
@@ -42,17 +46,9 @@ export class HomePage extends Component {
         return (
             <Container>
                 <Header>
-                    <Left>
-                        <Button
-                            transparent
-                            onPress={() => this.props.navigation.navigate("DrawerOpen")}>
-                            <Icon name="menu" />
-                        </Button>
-                    </Left>
                     <Body>
                         <Title>Flat Home</Title>
                     </Body>
-                    <Right />
                 </Header>
                 <Grid style={{alignItems: 'center'}}>
                     <Row size={30}>
@@ -66,10 +62,15 @@ export class HomePage extends Component {
                         <Row size={20}>
                             <Text style={styles.flatText}>{this.state.flatName}</Text>
                         </Row>
-                        <Row size={50}>
+                        <Row size={20}>
                             <Button primary
                                     onPress={this.handleLeave}
                             ><Text> Leave Flat </Text></Button>
+                        </Row>
+                        <Row size = {40}>
+                            <Button primary
+                                    onPress={this.handleTodo}
+                            ><Text> TodoList </Text></Button>
                         </Row>
                         </View>}
                     {!this.state.flatName &&

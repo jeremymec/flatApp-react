@@ -5,9 +5,9 @@ import {RegisterPage} from "./pages/register";
 import * as Font from 'expo-font';
 import Ionicons from "@expo/vector-icons/build/Ionicons";
 import Loading from "./pages/loading";
-import {HomePage} from "./pages/home/home";
+import {HomePage} from "./pages/home";
 import {JoinPage} from "./pages/joinflat";
-import HomeScreenRouter from "./pages/home";
+import {TodoPage} from "./pages/todo";
 
 const rootStack = createSwitchNavigator({
         Loading: Loading,
@@ -15,9 +15,10 @@ const rootStack = createSwitchNavigator({
         Register: RegisterPage,
         Home: HomePage,
         Join: JoinPage,
+        Todo: TodoPage
 },
     {
-        InitialName: 'Login'
+        InitialName: 'Todo'
     });
 
 const AppObj = createAppContainer(rootStack);
@@ -44,7 +45,7 @@ export default class App extends Component {
         if (this.state.isReady) {
             return <AppObj />;
         } else {
-            return <HomeScreenRouter />;
+            return null;
         }
     }
 
