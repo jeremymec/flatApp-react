@@ -13,6 +13,10 @@ export class TodoPage extends Component {
         this.updateModel();
     }
 
+    onBackPressed = () => {
+        this.props.navigation.navigate('Home');
+    };
+
     onItemPressed = i => {
         const userId = firebase.auth().currentUser.uid;
         const itemId = i.id;
@@ -25,7 +29,11 @@ export class TodoPage extends Component {
         const userId = firebase.auth().currentUser.uid;
         let formData = new FormData();
         formData.append("content", this.state.newItemName);
-        rest.createTodoItem(userId, formData).then(r => this.updateModel())
+        rest.createTodoItem(userId, formData).then(r => {
+            this.setState({newItemName: ''});
+            this.updateModel();
+
+        })
     };
 
     updateModel() {
@@ -35,19 +43,15 @@ export class TodoPage extends Component {
 
         rest.getTodosByUserId(userId).then(
             (response) => {
-                //console.log(response);
                 return response.json().then(
                     (responseJson) => {
-                        //console.log(responseJson.length);
                         for (let i = 0; i < responseJson.length; i++) {
-                            const jsonObj = responseJson[i];
+                            console.log(responseJson[i]);
                             let todoItem = new TodoItem(responseJson[i]);
-                            console.log(todoItem.content);
                             this.setState((prevState => ({
                                 todoItems: [...prevState.todoItems, todoItem]
                             })))
                         }
-                        //return console.log(this.state.todoItems);
                     }
                 );
             }
@@ -65,9 +69,10 @@ export class TodoPage extends Component {
                 </Header>
                 <View>
                     <List>
-                    <FlatList data={this.state.todoItems}
+                    <FlatList
+                        data={this.state.todoItems}
                               renderItem={({item}) =>
-                                  <ListItem>
+                                  <ListItem style={{ flexDirection: 'row', justifyContent: 'space-between'}}>
                                       <Text>{item.content}</Text>
                                       <Button success onPress={() => this.onItemPressed(item)}><Text>Done!</Text></Button>
                                   </ListItem>}
@@ -79,9 +84,12 @@ export class TodoPage extends Component {
                             <Input placeholder="Item Name"
                                    onChangeText={newItemName => this.setState({newItemName})}
                                    value={this.state.newItemName}/>
+                            <Button primary style={{textAlign: 'right'}} onPress={this.onItemCreate}><Text>Add Item</Text></Button>
                         </Item>
-                        <Button primary onPress={this.onItemCreate}><Text>Add Item</Text></Button>
                     </Form>
+                </View>
+                <View style={{flex: 1, justifyContent: "flex-end"}}>
+                    <Button info onPress={this.onBackPressed}><Text>Back to Flat</Text></Button>
                 </View>
             </Container>
             );

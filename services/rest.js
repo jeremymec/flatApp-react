@@ -1,6 +1,5 @@
 import firebase from "../utils/firebase";
 import {resume} from "expo/build/AR";
-import {TodoItem} from "../pages/todo";
 
 class restService {
 
@@ -53,12 +52,24 @@ class restService {
         })
     }
 
-    async createTodoItem(userId: string, item: TodoItem) {
+    async createTodoItem(userId: string, item) {
         return await fetch(this.baseUrl + '/users/' + userId + '/flats/todos/todo_items',
             {
                 method: 'POST',
                 body: item
             })
+    }
+
+    async getNewsPostsByUserId(userId: string) {
+        return await fetch(this.baseUrl + '/users/' + userId + '/flats/news/news_posts')
+    }
+
+    async createNewsPost(userId: string, post) {
+        return await fetch(this.baseUrl + '/users/' + userId + '/flats/news/news_posts',
+            {
+                method: 'POST',
+                body: post
+            });
     }
 
 }

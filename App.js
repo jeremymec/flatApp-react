@@ -8,6 +8,8 @@ import Loading from "./pages/loading";
 import {HomePage} from "./pages/home";
 import {JoinPage} from "./pages/joinflat";
 import {TodoPage} from "./pages/todo";
+import HeaderBackButton from "react-navigation";
+import {NewsFeedPage} from "./pages/newsfeed";
 
 const rootStack = createSwitchNavigator({
         Loading: Loading,
@@ -15,13 +17,18 @@ const rootStack = createSwitchNavigator({
         Register: RegisterPage,
         Home: HomePage,
         Join: JoinPage,
-        Todo: TodoPage
+        Todo: TodoPage,
+        NewsFeed: NewsFeedPage
 },
     {
-        InitialName: 'Todo'
+        InitialName: 'Loading'
     });
 
 const AppObj = createAppContainer(rootStack);
+
+const navigationOptions = ({ navigation }) => ({
+    headerLeft: <HeaderBackButton onPress={() => navigation.goBack(null)}/>,
+});
 
 export default class App extends Component {
 

@@ -25,6 +25,10 @@ export class HomePage extends Component {
         this.props.navigation.navigate('Todo');
     };
 
+    handleNewsFeed = () => {
+        this.props.navigation.navigate('NewsFeed')
+    };
+
     getFlatData = () => {
         let userUid = firebase.auth().currentUser.uid;
         let getRequest = rest.getUsersFlat(userUid);
@@ -69,8 +73,11 @@ export class HomePage extends Component {
                         </Row>
                         <Row size = {40}>
                             <Button primary
-                                    onPress={this.handleTodo}
-                            ><Text> TodoList </Text></Button>
+                                    onPress={this.handleTodo}>
+                            <Text> Todo List </Text></Button>
+                            <Button primary
+                                    onPress={this.handleNewsFeed}>
+                                <Text> News Feed </Text></Button>
                         </Row>
                         </View>}
                     {!this.state.flatName &&
