@@ -88,8 +88,8 @@ export class TodoPage extends Component {
                         </Item>
                     </Form>
                 </View>
-                <View style={{flex: 1, justifyContent: "flex-end"}}>
-                    <Button info onPress={this.onBackPressed}><Text>Back to Flat</Text></Button>
+                <View style={{flex: 1, justifyContent: "flex-end", alignItems: "center"}}>
+                    <Button full onPress={this.onBackPressed}><Text>Home</Text></Button>
                 </View>
             </Container>
             );

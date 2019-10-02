@@ -10,6 +10,10 @@ import {JoinPage} from "./pages/joinflat";
 import {TodoPage} from "./pages/todo";
 import HeaderBackButton from "react-navigation";
 import {NewsFeedPage} from "./pages/newsfeed";
+import {CreatePostPage} from "./pages/createpost";
+import * as Location from 'expo-location';
+import * as Permissions from 'expo-permissions';
+import {CreateFlatPage} from "./pages/createflat";
 
 const rootStack = createSwitchNavigator({
         Loading: Loading,
@@ -17,8 +21,10 @@ const rootStack = createSwitchNavigator({
         Register: RegisterPage,
         Home: HomePage,
         Join: JoinPage,
+        Create: CreateFlatPage,
         Todo: TodoPage,
-        NewsFeed: NewsFeedPage
+        NewsFeed: NewsFeedPage,
+        CreatePost: CreatePostPage,
 },
     {
         InitialName: 'Loading'

@@ -31,6 +31,13 @@ class restService {
         return await fetch(this.baseUrl + '/flats/' + inviteCode);
     }
 
+    async createUsersFlat(userId: string, flat) {
+        return await fetch(this.baseUrl + '/users/' + userId + '/flats',{
+            method: 'POST',
+            body: flat,
+        });
+    }
+
     async joinFlatById(flatId: number, userId: string) {
         let formData = new FormData();
         formData.append("flat_id", flatId);

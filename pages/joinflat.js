@@ -8,11 +8,16 @@ export class JoinPage extends Component {
 
     state = {inviteCode: '', errorMessage: null};
 
+    onBackPressed = () => {
+        this.props.navigation.navigate('Home');
+    };
+
     handleJoin = () => {
-        let getRequest = rest.getFlatByInviteCode(this.state.inviteCode);
-        getRequest.then((response) => {
+        rest.getFlatByInviteCode(this.state.inviteCode).then((response) => {
+            console.log(response);
             if (response.status === 200) {
                 return response.json().then((responseJson => {
+                    console.log(responseJson);
                     if (responseJson !== null){
                         console.log("Response JSON is" + JSON.stringify(responseJson));
                         let patchRequest = rest.joinFlatById(responseJson['id'],
@@ -42,7 +47,7 @@ export class JoinPage extends Component {
                         <Title>Join a Flat</Title>
                     </Body>
                 </Header>
-                <Content>
+                <View  style={{flex: 1}}>
                     <View>
                         <Form>
                             <Item style={styles.inviteInputItem}>
@@ -53,13 +58,18 @@ export class JoinPage extends Component {
                                 />
                             </Item>
                         </Form>
-                        <Button primary onPress={this.handleJoin}>
+                        <Button block success onPress={this.handleJoin}>
                             <Text>Join Flat</Text>
                         </Button>
-                        {this.state.errorMessage &&
-                        <Text>{this.state.errorMessage}</Text>}
                     </View>
-                </Content>
+                    <View>
+                    {this.state.errorMessage &&
+                    <Text style={{color: 'red'}}>{this.state.errorMessage}</Text>}
+                    </View>
+                </View>
+                <View style={{flex: 1, justifyContent: "flex-end", alignItems: "center"}}>
+                    <Button full onPress={this.onBackPressed}><Text>Home</Text></Button>
+                </View>
             </Container>
         );
     }

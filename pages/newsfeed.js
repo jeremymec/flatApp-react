@@ -12,6 +12,7 @@ import {
     CardItem,
     List,
     ListItem,
+    Button,
 } from "native-base";
 import {FlatList, TouchableOpacity, View} from "react-native";
 import Moment from 'moment';
@@ -28,6 +29,9 @@ export class NewsFeedPage extends Component {
         this.props.navigation.navigate('Home');
     };
 
+    onNewPressed = () => {
+        this.props.navigation.navigate('CreatePost');
+    };
 
     updateModel() {
         const userId = firebase.auth().currentUser.uid;
@@ -51,12 +55,16 @@ export class NewsFeedPage extends Component {
 
     render() {
         return (
-            <Container>
+            <Container style={{flexGrow: 1}}>
                 <Header>
                     <Body>
                         <Title>News Feed</Title>
                     </Body>
                 </Header>
+                <View style={{justifyContent: "center", alignItems: "center"}}>
+                    <Button full success onPress={this.onNewPressed}><Text>Create New Post</Text></Button>
+                </View>
+                <Content style={{flexGrow: 1}}>
                     <List>
                         <FlatList
                             data={this.state.newsPosts}
@@ -79,6 +87,10 @@ export class NewsFeedPage extends Component {
                             keyExtractor={(item, index) => index.toString()}
                         />
                     </List>
+                </Content>
+                <View style={{ justifyContent: "flex-end", alignItems: "center"}}>
+                    <Button full onPress={this.onBackPressed}><Text>Home</Text></Button>
+                </View>
             </Container>
         );
     }
